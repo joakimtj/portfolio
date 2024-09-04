@@ -1,4 +1,8 @@
+import { type Project } from '../types/Project'
+
 const form = document.getElementById("project-form") as HTMLFormElement;
+console.log("hello");
+const projects: Project[] = [];
 
 form?.addEventListener("submit", async event => {
     event.preventDefault();
@@ -12,9 +16,15 @@ function loadJSON() {
         })
         .then((data) => {
             const projectsSection = document.getElementById("projects-section");
+            console.log("hello");
             for (const project of data)
             {
-                const article = document.createElement("article") as HTMLBodyElement;
+                projects.push({ ...project })
+            }
+            console.log(projects);
+            for (const project of data)
+            {
+                const article = document.createElement("article") as HTMLElement;
 
                 const h2 = document.createElement("h2");
                 h2.textContent = `${project.title}`;
@@ -49,3 +59,4 @@ function loadJSON() {
 }
 
 loadJSON();
+console.log(projects);
