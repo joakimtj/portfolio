@@ -17,7 +17,7 @@ function loadJSON() {
             const projectsSection = document.getElementById("projects-section") as HTMLElement;
             for (const project of data)
             {
-                projects.push({ ...project })
+                projects.push({ ...project });
 
                 const article = document.createElement("article") as HTMLElement;
 
