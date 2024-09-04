@@ -1,3 +1,4 @@
+var form = document.getElementById("project-form");
 function loadJSON() {
     fetch("../projects.json")
         .then(function (response) {
@@ -11,7 +12,7 @@ function loadJSON() {
             var h2 = document.createElement("h2");
             h2.textContent = "".concat(project.title);
             article.appendChild(h2);
-            var languageContainer = document.createElement("div");
+            var languageContainer = document.createElement("section");
             languageContainer.id = "language-container";
             article.appendChild(languageContainer);
             for (var _a = 0, _b = project.languages; _a < _b.length; _a++) {
