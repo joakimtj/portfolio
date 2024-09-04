@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,9 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const form = document.getElementById("project-form");
-console.log("hello");
 const projects = [];
 form === null || form === void 0 ? void 0 : form.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0, function* () {
     event.preventDefault();
@@ -23,12 +20,8 @@ function loadJSON() {
     })
         .then((data) => {
         const projectsSection = document.getElementById("projects-section");
-        console.log("hello");
         for (const project of data) {
             projects.push(Object.assign({}, project));
-        }
-        console.log(projects);
-        for (const project of data) {
             const article = document.createElement("article");
             const h2 = document.createElement("h2");
             h2.textContent = `${project.title}`;
@@ -37,7 +30,6 @@ function loadJSON() {
             languageContainer.id = "language-container";
             article.appendChild(languageContainer);
             for (const language of project.languages) {
-                console.log(language);
                 const languageE = document.createElement("p");
                 languageE.textContent = `${language}`;
                 languageE.id = `language`;
@@ -57,4 +49,4 @@ function loadJSON() {
     });
 }
 loadJSON();
-console.log(projects);
+export {};
