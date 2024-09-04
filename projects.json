@@ -1,26 +1,27 @@
-{
-    "vector.c":
+[
+    
     {
+        "title": "vector.c",
         "description": "a simple vector implementation written in C",
         "languages": "C",
         "createdAt": 2022
     },
-    "linked_list.c":
     {
+        "title": "linked_list.c",
         "description": "a simple linkedlist implementation written in C",
         "languages": "C",
         "createdAt": 2022
     },
-    "Dr. Pellet": 
     {
+        "title": "Dr. Pellet",
         "description": "A Dr. Mario clone written in C using SDL",
         "languages": "C",
         "createdAt": 2024
     },
-    "joakimtj.no": 
     {
+        "title": "joakimtj",
         "description": "My personal site. Written in basic HTML and using SCSS for CSS",
-        "languages": ["HTML", "CSS", "SCSS"],
+        "languages": "html",
         "createdAt": 2024
     }
-}
+]
