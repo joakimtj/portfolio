@@ -1,0 +1,7 @@
+Client->Server: HTTP GET /projects.js
+Server-->Client: HTTP Response JS
+Client->Javascript: Load script
+Javascript->Server: Fetch projects.json
+Server-->Javascript: projects.json
+Javascript->Javascript: Process and store in memory
+Javascript->DOM: Populate DOM with projects

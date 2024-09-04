@@ -1,0 +1,7 @@
+Client->Javascript: User submit form
+Javascript->Client: Prevent default form submission
+Javascript->Javascript: Fetch form data
+Javascript->Server: POST /api/projects
+Server-->Javascript: JSON response
+Javascript->Javascript: Load into memory
+Javascript->DOM: Add new project to the DOM

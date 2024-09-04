@@ -1,0 +1,26 @@
+{
+    "vector.c":
+    {
+        "description": "a simple vector implementation written in C",
+        "languages": "C",
+        "date": 2022
+    },
+    "linked_list.c":
+    {
+        "description": "a simple linkedlist implementation written in C",
+        "languages": "C",
+        "date": 2022
+    },
+    "Dr. Pellet": 
+    {
+        "description": "A Dr. Mario clone written in C using SDL",
+        "languages": "C",
+        "date": 2024
+    },
+    "joakimtj.no": 
+    {
+        "description": "My personal site. Written in basic HTML and using SCSS for CSS",
+        "languages": ["HTML", "CSS", "SCSS"],
+        "date": 2024
+    }
+}
