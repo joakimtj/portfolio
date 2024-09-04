@@ -1,4 +1,9 @@
-const form = document.getElementById("project-form");
+const form = document.getElementById("project-form") as HTMLFormElement;
+
+form?.addEventListener("submit", async event => {
+    event.preventDefault();
+    console.log("In form submit function haha");
+})
 
 function loadJSON() {
     fetch("../projects.json")
@@ -9,7 +14,7 @@ function loadJSON() {
             const projectsSection = document.getElementById("projects-section");
             for (const project of data)
             {
-                const article = document.createElement("article");
+                const article = document.createElement("article") as HTMLBodyElement;
 
                 const h2 = document.createElement("h2");
                 h2.textContent = `${project.title}`;
