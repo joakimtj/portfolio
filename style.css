@@ -7,9 +7,13 @@
   border-color: black;
   margin-bottom: 2px;
 }
+#projects-section article #language-container {
+  display: flex;
+  flex-direction: row;
+}
 #projects-section article #language {
   margin: 0;
-  padding: 0;
+  padding: 0 4px 0 4px;
   font-size: 12px;
 }
 #projects-section article p {

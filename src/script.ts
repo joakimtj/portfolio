@@ -13,11 +13,18 @@ function loadJSON() {
                 h2.textContent = `${project.title}`;
                 article.appendChild(h2);
                 
-                const language = document.createElement("p");
-                language.textContent = `written in: ${project.languages}`;
-                language.id = `language`;
-                article.appendChild(language);
-
+                const languageContainer = document.createElement("div");
+                languageContainer.id = "language-container";
+                article.appendChild(languageContainer);
+                for (const language of project.languages)
+                {
+                    console.log(language);
+                    const languageE = document.createElement("p");
+                    languageE.textContent = `${language}`;
+                    languageE.id = `language`;
+                    languageContainer.appendChild(languageE);
+                }
+                
                 const figure = document.createElement("figure");
                 const img = document.createElement("img");
                 img.src="assets/temp-img.png";

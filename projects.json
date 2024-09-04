@@ -3,25 +3,25 @@
     {
         "title": "vector.c",
         "description": "a simple vector implementation written in C",
-        "languages": "C",
+        "languages": ["C"],
         "createdAt": 2022
     },
     {
         "title": "linked_list.c",
         "description": "a simple linkedlist implementation written in C",
-        "languages": "C",
+        "languages": ["C"],
         "createdAt": 2022
     },
     {
         "title": "Dr. Pellet",
         "description": "A Dr. Mario clone written in C using SDL",
-        "languages": "C",
+        "languages": ["C"],
         "createdAt": 2024
     },
     {
         "title": "joakimtj",
         "description": "My personal site. Written in basic HTML and using SCSS for CSS",
-        "languages": "html",
+        "languages": ["HTML", "CSS", "SCSS"],
         "createdAt": 2024
     }
 ]

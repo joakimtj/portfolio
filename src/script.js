@@ -11,10 +11,17 @@ function loadJSON() {
             var h2 = document.createElement("h2");
             h2.textContent = "".concat(project.title);
             article.appendChild(h2);
-            var language = document.createElement("p");
-            language.textContent = "written in: ".concat(project.languages);
-            language.id = "language";
-            article.appendChild(language);
+            var languageContainer = document.createElement("div");
+            languageContainer.id = "language-container";
+            article.appendChild(languageContainer);
+            for (var _a = 0, _b = project.languages; _a < _b.length; _a++) {
+                var language = _b[_a];
+                console.log(language);
+                var languageE = document.createElement("p");
+                languageE.textContent = "".concat(language);
+                languageE.id = "language";
+                languageContainer.appendChild(languageE);
+            }
             var figure = document.createElement("figure");
             var img = document.createElement("img");
             img.src = "assets/temp-img.png";
