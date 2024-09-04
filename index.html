@@ -3,12 +3,26 @@
     <head>
         <meta charset="utf-8">
         <title>portfolio</title>
+        <link rel="stylesheet" href="style.css">
     </head>
 
     <body>
-    <nav></nav>
-    <p>Hello</p>
-    <section id="projects-section"></section>
+    <section id="projects-section">
+        <article>
+            <h2>Project Title</h2>
+            <figure>
+                <img src="assets/temp-img.png" alt="a temporary image">
+            </figure>
+            <p>Some text</p>
+        </article>
+        <article>
+            <h2>Project Title</h2>
+            <figure>
+                <img src="assets/temp-img.png" alt="a temporary image">
+            </figure>
+            <p>Some text</p>
+        </article>
+    </section>
     <section id="project-form-section">
         <form id="project-form">
             <fieldset>
@@ -17,10 +31,12 @@
                 <input type="text" id="title" name="title" required/>
 
                 <label for="description">Description</label>
-                <input type="text" id="description" name="description" required/>
+                <textarea id="description" name="description" rows="4" cols="50" required></textarea>
 
                 <label for="date">Date</label>
                 <input type="text" id="date" name="date" required/>
+
+                <input type="submit"/>
             </fieldset>
         </form>
     </section>

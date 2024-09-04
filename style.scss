@@ -1,0 +1,32 @@
+#projects-section 
+{
+    display: grid;
+
+    article 
+    {
+        h2 {
+            border-bottom: 2px;
+            border-style: none none solid none;
+            border-color: black;
+        }
+
+        p {
+            margin-top: 4em;
+        }
+
+        figure {
+
+            float: left;
+
+            img {
+                width: 200px;
+            }
+        }
+    }
+}
+
+#project-form fieldset
+{
+    display: grid;
+    width: 20%;
+}

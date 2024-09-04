@@ -1,0 +1,24 @@
+#projects-section {
+  display: grid;
+}
+#projects-section article h2 {
+  border-bottom: 2px;
+  border-style: none none solid none;
+  border-color: black;
+}
+#projects-section article p {
+  margin-top: 4em;
+}
+#projects-section article figure {
+  float: left;
+}
+#projects-section article figure img {
+  width: 200px;
+}
+
+#project-form fieldset {
+  display: grid;
+  width: 20%;
+}
+
+/*# sourceMappingURL=style.css.map */
