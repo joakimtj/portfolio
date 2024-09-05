@@ -26,24 +26,22 @@ function loadJSON() {
             const h2 = document.createElement("h2");
             h2.textContent = `${project.title}`;
             article.appendChild(h2);
-            const languageContainer = document.createElement("section");
-            languageContainer.id = "language-container";
-            article.appendChild(languageContainer);
-            for (const language of project.languages) {
-                const languageE = document.createElement("p");
-                languageE.textContent = `${language}`;
-                languageE.id = `language`;
-                languageContainer.appendChild(languageE);
-            }
-            const figure = document.createElement("figure");
-            const img = document.createElement("img");
-            img.src = "assets/temp-img.png";
-            img.alt = "a temporary image";
-            figure.appendChild(img);
-            article.appendChild(figure);
+            const createdAt = document.createElement("p");
+            createdAt.id = "createdAt";
+            createdAt.textContent = `${project.createdAt}`;
+            article.appendChild(createdAt);
             const paragraph = document.createElement("p");
             paragraph.textContent = `${project.description}`;
             article.appendChild(paragraph);
+            const technologiesContainer = document.createElement("section");
+            technologiesContainer.id = "technologies-container";
+            article.appendChild(technologiesContainer);
+            for (const technologies of project.technologies) {
+                const technologiesE = document.createElement("p");
+                technologiesE.textContent = `${technologies}`;
+                technologiesE.id = `technologies`;
+                technologiesContainer.appendChild(technologiesE);
+            }
             projectsSection === null || projectsSection === void 0 ? void 0 : projectsSection.appendChild(article);
         }
     });

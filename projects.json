@@ -1,26 +1,30 @@
 [
     {
-        "title": "vector.c",
-        "description": "a simple vector implementation written in C",
-        "languages": ["C"],
-        "createdAt": 2022
+        "title": "Portfolio Website",
+        "description": "A personal portfolio website showcasing projects and skills.",
+        "technologies": ["HTML", "CSS", "JavaScript"],
+        "createdAt": "2024",
+        "rep-link": "#"
     },
     {
-        "title": "linked_list.c",
-        "description": "a simple linkedlist implementation written in C",
-        "languages": ["C"],
-        "createdAt": 2022
+        "title": "To-Do List App",
+        "description": "A simple to-do list application to track daily tasks.",
+        "technologies": ["React", "Node.js", "MongoDB"],
+        "createdAt": "2024",
+        "rep-link": "#"
     },
     {
-        "title": "Dr. Pellet",
-        "description": "A Dr. Mario clone written in C using SDL",
-        "languages": ["C"],
-        "createdAt": 2024
+        "title": "Weather Dashboard",
+        "description": "A weather dashboard that shows real-time weather updates for various cities.",
+        "technologies": ["Vue.js", "API Integration", "TailwindCSS"],
+        "createdAt": "2023",
+        "rep-link": "#"
     },
     {
-        "title": "joakimtj",
-        "description": "My personal site. Written in basic HTML and using SCSS for CSS",
-        "languages": ["HTML", "CSS", "SCSS"],
-        "createdAt": 2024
+        "title": "Blog Platform",
+        "description": "A simple blogging platform where users can write and publish articles.",
+        "technologies": ["Django", "SQLite", "Bootstrap"],
+        "createdAt": "2024",
+        "rep-link": "#"
     }
 ]

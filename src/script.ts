@@ -18,34 +18,31 @@ function loadJSON() {
             for (const project of data)
             {
                 projects.push({ ...project });
-
                 const article = document.createElement("article") as HTMLElement;
 
                 const h2 = document.createElement("h2") as HTMLElement;
                 h2.textContent = `${project.title}`;
                 article.appendChild(h2);
-                
-                const languageContainer = document.createElement("section") as HTMLElement;
-                languageContainer.id = "language-container";
-                article.appendChild(languageContainer);
-                for (const language of project.languages)
-                {
-                    const languageE = document.createElement("p") as HTMLElement;
-                    languageE.textContent = `${language}`;
-                    languageE.id = `language`;
-                    languageContainer.appendChild(languageE);
-                }
-                
-                const figure = document.createElement("figure") as HTMLElement;
-                const img = document.createElement("img") as HTMLImageElement;
-                img.src="assets/temp-img.png";
-                img.alt="a temporary image";
-                figure.appendChild(img);
-                article.appendChild(figure);
+
+                const createdAt = document.createElement("p") as HTMLElement;
+                createdAt.id = "createdAt";
+                createdAt.textContent = `${project.createdAt}`;
+                article.appendChild(createdAt);
 
                 const paragraph = document.createElement("p") as HTMLElement;
                 paragraph.textContent = `${project.description}`;
                 article.appendChild(paragraph);
+
+                const technologiesContainer = document.createElement("section") as HTMLElement;
+                technologiesContainer.id = "technologies-container";
+                article.appendChild(technologiesContainer);
+                for (const technologies of project.technologies)
+                {
+                    const technologiesE = document.createElement("p") as HTMLElement;
+                    technologiesE.textContent = `${technologies}`;
+                    technologiesE.id = `technologies`;
+                    technologiesContainer.appendChild(technologiesE);
+                }
 
                 projectsSection?.appendChild(article);
             }
