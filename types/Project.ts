@@ -4,5 +4,4 @@ export type Project =
     description: string,
     technologies: string[],
     createdAt: number,
-    rep_link: string,
 }
