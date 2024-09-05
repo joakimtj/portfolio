@@ -9,4 +9,4 @@
 <p>Jeg lagde mine egne konfigurasjonsfiler osv. men om det er en litt sånn idiotsikker prosess som kan deles så si gjerne ifra!</p>
 <p>F.eks. jeg visste ikke (og vet heller enda ikke helt) hva 'commonjs' er. Så at jeg måtte bytte til ESNext for ts tok meg litt på senga. </p>
 <h3>N.B.</h3>
-<p>Det endelige utseende på siden avviker litt fra wireframen.</p>
+<p>Det endelige utseende på siden avviker litt fra wireframen da jeg jobbet med dette på mindre skjerm og kom ikke på det før det var litt sent.</p>
