@@ -32,7 +32,7 @@ form?.addEventListener("submit", async event => {
         const response = await fetch("http://localhost:3000/add", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(project),
             }
@@ -84,15 +84,33 @@ function updateProjectList() {
 }
 
 function loadFromAPI() {
-    fetch("http://localhost:3999")
-        .then((response) => response.json())
+    fetch("http://localhost:3000/projects")
+        .then((response) => {
+            // Check if the response status is OK (status code 200-299)
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText} (Status: ${response.status})`);
+            }
+            // Try to parse the JSON data
+            return response.json();
+        })
         .then((data) => {
+            // Ensure that the data is an array before pushing it
+            if (!Array.isArray(data)) {
+                throw new Error('Data format is incorrect. Expected an array.');
+            }
+
+            // Push the data into the projects array
             projects.push(...data);
+            console.log("Loaded", projects);
+            // Update the project list in the UI
             updateProjectList();
         })
         .catch((error) => {
-            console.error("Error fetching data from the server:", error);
-        })
+            // Log the error with additional context for debugging
+            console.error("Error fetching data from the server:", error.message);
+            // Optionally, display an error message to the user
+            alert(`Failed to load projects: ${error.message}`);
+        });
 }
 
 function loadJSON() {
@@ -108,5 +126,5 @@ function loadJSON() {
             }
         })
 }
-
-loadJSON();
+// loadJSON(); This was used prior to Hono.
+loadFromAPI();
