@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+    participant Database
+    
+    User->>Browser: Fills form with project details
+    User->>Browser: Clicks "Submit"
+    Browser->>Server: POST /add (project data in JSON)
+    Server->>Server: Parse JSON and validate data
+    Server->>Database: Store new project data
+    Database-->>Server: Confirm project added
+    Server-->>Browser: 201 Created (Success message)
+    Browser-->>User: Show success message and update UI

@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+    participant Database
+    
+    User->>Browser: Opens the application
+    Browser->>Server: GET /projects
+    Server->>Database: Fetch all projects
+    Database-->>Server: Return list of projects
+    Server-->>Browser: 200 OK (projects data in JSON)
+    Browser-->>User: Display projects in the UI
