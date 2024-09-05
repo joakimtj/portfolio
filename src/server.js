@@ -3,7 +3,7 @@ import { serve } from '@hono/node-server';
 import { serveStatic } from "@hono/node-server/serve-static";
 import projects from "./projects.json" assert { type: "json" };
 const app = new Hono();
-app.use('/*', serveStatic({ root: './' }));
+app.use('/*', serveStatic({ root: './src' }));
 const storedProjects = [...projects];
 // Endpoint to retrieve all projects
 app.get('/projects', async (c) => {

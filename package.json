@@ -4,7 +4,10 @@
   "description": "<h1>Portfolio</h1>\r <p>A simple portfolio webapp</p>",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node ./src/server.js", 
+    "dev": "npm run build && npm run start" 
   },
   "type": "module",
   "keywords": [],
@@ -14,7 +17,9 @@
     "@hono/node-server": "^1.12.2",
     "@types/node": "^22.5.4",
     "hono": "^4.5.11",
-    "ts-node": "^10.9.2",
+    "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
     "typescript": "^5.5.4"
   }
 }

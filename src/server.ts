@@ -6,7 +6,7 @@ import projects from "./projects.json" assert { type: "json" };
 
 const app = new Hono();
 
-app.use('/*', serveStatic({ root: './' }));
+app.use('/*', serveStatic({ root: './src' }));
 
 const storedProjects: Project[] = [...projects];
 
