@@ -12,32 +12,32 @@ const form = document.getElementById("project-form");
 const projects = [];
 form === null || form === void 0 ? void 0 : form.addEventListener("submit", (event) => __awaiter(void 0, void 0, void 0, function* () {
     event.preventDefault();
+    console.log(form);
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const createdYear = document.getElementById('createdYear').value;
-    const technologies = document.getElementById('technologies').value;
-    const technologiesSplit = technologies.split(",");
-    const project = { title: title, description: description, createdAt: createdYear, technologies: technologiesSplit };
-    projects.push(project);
-    updateProjectList();
-    try {
-        const response = yield fetch("http://localhost:3999/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(project),
-        });
-        if (response.status === 201) {
-            console.log("Project stored on the server.");
+    console.log(event);
+    console.log(createdYear);
+    const technologiesElement = document.getElementById('technologies');
+    console.log(technologiesElement);
+    let technologiesArray = [];
+    if (technologiesElement) {
+        const technologiesValue = technologiesElement.value.trim(); // Get value and trim whitespace
+        if (technologiesValue) {
+            // Split the string only if it is non-empty
+            technologiesArray = technologiesValue.split(',').map(tech => tech.trim());
+            console.log(technologiesArray); // Now it's an array of technologies
         }
         else {
-            console.error("Error when storing project on the server.");
+            console.error('Technologies field is empty');
         }
     }
-    catch (error) {
-        console.error("Error when sending data to the server:", error);
+    else {
+        console.error('Technologies input element not found');
     }
+    const project = { title: title, description: description, createdAt: createdYear, technologies: technologiesArray };
+    projects.push(project);
+    updateProjectList();
 }));
 function updateProjectList() {
     console.log(projects);
@@ -60,7 +60,7 @@ function updateProjectList() {
         for (const technologies of project.technologies) {
             const technologiesE = document.createElement("p");
             technologiesE.textContent = `${technologies}`;
-            technologiesE.id = `technologies`;
+            technologiesE.id = `technologies-symbol`;
             technologiesContainer.appendChild(technologiesE);
         }
         projectsSection === null || projectsSection === void 0 ? void 0 : projectsSection.appendChild(article);

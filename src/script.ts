@@ -6,35 +6,31 @@ const projects: Project[] = [];
 
 form?.addEventListener("submit", async event => {
     event.preventDefault();
-
+    console.log(form);
     const title = (document.getElementById("title") as HTMLInputElement).value;
     const description = (document.getElementById("description") as HTMLInputElement).value;
     const createdYear = (document.getElementById('createdYear') as HTMLInputElement).value;
-    const technologies = (document.getElementById('technologies') as HTMLInputElement).value;
-    const technologiesSplit = technologies.split(",");
-    const project: Project = { title: title, description: description, createdAt: createdYear, technologies: technologiesSplit };
+    console.log(event);
+    console.log(createdYear);
+    const technologiesElement = document.getElementById('technologies') as HTMLInputElement | null;
+    console.log(technologiesElement);
+    let technologiesArray: string[] = [];
+    if (technologiesElement) {
+        const technologiesValue = technologiesElement.value.trim(); // Get value and trim whitespace
+        if (technologiesValue) {
+            // Split the string only if it is non-empty
+            technologiesArray = technologiesValue.split(',').map(tech => tech.trim());
+            console.log(technologiesArray); // Now it's an array of technologies
+        } else {
+            console.error('Technologies field is empty');
+        }
+    } else {
+        console.error('Technologies input element not found');
+    }
+    const project: Project = { title: title, description: description, createdAt: createdYear, technologies: technologiesArray };
 
     projects.push(project);
     updateProjectList();
-
-    try {
-        const response = await fetch("http://localhost:3999/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(project),
-            }
-        );
-
-        if (response.status === 201) {
-            console.log("Project stored on the server.");
-        } else {
-            console.error("Error when storing project on the server.");
-        } 
-    } catch (error) {
-        console.error("Error when sending data to the server:", error);
-    }
 });
 
 function updateProjectList() {
@@ -65,7 +61,7 @@ function updateProjectList() {
         {
             const technologiesE = document.createElement("p") as HTMLElement;
             technologiesE.textContent = `${technologies}`;
-            technologiesE.id = `technologies`;
+            technologiesE.id = `technologies-symbol`;
             technologiesContainer.appendChild(technologiesE);
         }
         projectsSection?.appendChild(article);
