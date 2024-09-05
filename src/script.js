@@ -21,7 +21,7 @@ form === null || form === void 0 ? void 0 : form.addEventListener("submit", (eve
     projects.push(project);
     updateProjectList();
     try {
-        const response = yield fetch("http://localhost:5500/add", {
+        const response = yield fetch("http://localhost:3999/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -67,7 +67,7 @@ function updateProjectList() {
     }
 }
 function loadFromAPI() {
-    fetch("http://localhost:5500")
+    fetch("http://localhost:3999")
         .then((response) => response.json())
         .then((data) => {
         projects.push(...data);
@@ -85,9 +85,9 @@ function loadJSON() {
         .then((data) => {
         for (const project of data) {
             projects.push(Object.assign({}, project));
+            updateProjectList();
         }
     });
 }
 loadJSON();
-loadFromAPI();
 export {};

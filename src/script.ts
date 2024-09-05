@@ -93,9 +93,9 @@ function loadJSON() {
             for (const project of data)
             {
                 projects.push({ ...project });
+                updateProjectList();
             }
         })
 }
 
 loadJSON();
-loadFromAPI();
