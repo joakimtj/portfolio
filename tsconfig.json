@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig to read more about this file */
-
     /* Language and Environment */
     "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "lib": ["es2015", "dom"],                                        /* Specify a set of bundled library declaration files that describe the target runtime environment. */
@@ -22,6 +20,7 @@
   },
   "include": [
     "src",
-    "types"
+    "types",
+    "server",
   ]
 }
