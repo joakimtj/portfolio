@@ -1,12 +1,12 @@
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
-import { Project } from '../types/Project';
+import { Project } from './Project';
 import { serveStatic } from "@hono/node-server/serve-static";
 import projects from "./projects.json" assert { type: "json" };
 
 const app = new Hono();
 
-app.use('/*', serveStatic({ root: './src' }));
+app.use('/*', serveStatic({ root: './dist' }));
 
 const storedProjects: Project[] = [...projects];
 

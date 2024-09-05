@@ -1,4 +1,4 @@
-import { Project } from '../types/Project.js'
+import { Project } from './Project.js'
 
 const projectsSection = document.getElementById("projects-section") as HTMLElement; 
 const form = document.getElementById("project-form") as HTMLFormElement;
