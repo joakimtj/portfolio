@@ -11,6 +11,9 @@ body {
 #projects-section 
 {
 
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     article 
     {
         margin: 5px;
@@ -19,6 +22,7 @@ body {
         border-style: solid;
         border-color:#b1b1b1;
         border-width: 1px;
+        width: 350px;
         
         h2 {
            margin-top: 0;
@@ -45,6 +49,7 @@ body {
         #technologies-container {
             display: flex;
             flex-direction: row; 
+            flex-wrap: wrap;
         }
 
         #technologies-symbol { 
@@ -71,7 +76,7 @@ body {
     }
 
     display: grid;
-    width: 25%;
+    width: 10%;
     margin: 5px;
     background-color: rgb(246, 247, 250);
     padding: 20px;

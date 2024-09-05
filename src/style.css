@@ -5,6 +5,11 @@ body header {
   margin: 5px;
 }
 
+#projects-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 #projects-section article {
   margin: 5px;
   background-color: rgb(246, 247, 250);
@@ -12,6 +17,7 @@ body header {
   border-style: solid;
   border-color: #b1b1b1;
   border-width: 1px;
+  width: 350px;
 }
 #projects-section article h2 {
   margin-top: 0;
@@ -35,6 +41,7 @@ body header {
 #projects-section article #technologies-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 #projects-section article #technologies-symbol {
   margin: 0 2px 0 2px;
@@ -51,7 +58,7 @@ body header {
 
 #project-form fieldset {
   display: grid;
-  width: 25%;
+  width: 10%;
   margin: 5px;
   background-color: rgb(246, 247, 250);
   padding: 20px;

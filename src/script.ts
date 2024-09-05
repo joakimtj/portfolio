@@ -6,14 +6,10 @@ const projects: Project[] = [];
 
 form?.addEventListener("submit", async event => {
     event.preventDefault();
-    console.log(form);
     const title = (document.getElementById("title") as HTMLInputElement).value;
     const description = (document.getElementById("description") as HTMLInputElement).value;
     const createdYear = (document.getElementById('createdYear') as HTMLInputElement).value;
-    console.log(event);
-    console.log(createdYear);
     const technologiesElement = document.getElementById('technologies') as HTMLInputElement | null;
-    console.log(technologiesElement);
     let technologiesArray: string[] = [];
     if (technologiesElement) {
         const technologiesValue = technologiesElement.value.trim(); // Get value and trim whitespace
