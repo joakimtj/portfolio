@@ -1,26 +1,32 @@
 {
   "compilerOptions": {
     /* Language and Environment */
-    "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "lib": ["es2015", "dom"],                                        /* Specify a set of bundled library declaration files that describe the target runtime environment. */
-
+    "target": "ESNext",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     /* Modules */
     // Remember that you switched "module" from commonjs to ESNext to it not have that stupid uncaught reference export error thing. Check chatgippity yapping session.
     "module": "ESNext",                                  /* Specify what module code is generated. */
     "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
-
+    "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-
+    "outDir": "./src",
     /* Type Checking */
     "strict": true,                                      /* Enable all strict type-checking options. */
     "noImplicitAny": true,                            /* Enable error reporting for expressions and declarations with an implied 'any' type. */
 
     /* Completeness */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
+    "rootDir": "./",
+    "baseUrl": "./",   // Set the base directory for resolving non-relative module names
+    "paths": {
+      "@types/*": ["types/*"],
+      "*": ["node_modules/*"] // This ensures that TypeScript will look in `node_modules`
+      }   
   },
   "include": [
     "src",
-    "types",
-    "server",
-  ]
+    "types/*.ts",
+    "./**/*.ts",
+    "server.ts"
+  ], "exclude": ["node_modules"]
+
 }
