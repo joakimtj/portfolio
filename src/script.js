@@ -25,6 +25,24 @@ form?.addEventListener("submit", async (event) => {
     const project = { title: title, description: description, createdAt: createdYear, technologies: technologiesArray };
     projects.push(project);
     updateProjectList();
+    try {
+        const response = await fetch("http://localhost:3000/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(project),
+        });
+        if (response.status === 201) {
+            console.log("Project stored on the server.");
+        }
+        else {
+            console.error("Error when storing project on the server.");
+        }
+    }
+    catch (error) {
+        console.error("Error when sending data to the server:", error);
+    }
 });
 function updateProjectList() {
     console.log(projects);

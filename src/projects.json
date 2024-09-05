@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Portfolio Website",
+        "description": "A personal portfolio website showcasing projects and skills.",
+        "technologies": ["HTML", "CSS", "JavaScript"],
+        "createdAt": "2024"
+    },
+    {
+        "title": "To-Do List App",
+        "description": "A simple to-do list application to track daily tasks.",
+        "technologies": ["React", "Node.js", "MongoDB"],
+        "createdAt": "2024"
+    },
+    {
+        "title": "Weather Dashboard",
+        "description": "A weather dashboard that shows real-time weather updates for various cities.",
+        "technologies": ["Vue.js", "API Integration", "TailwindCSS"],
+        "createdAt": "2023"
+    },
+    {
+        "title": "Blog Platform",
+        "description": "A simple blogging platform where users can write and publish articles.",
+        "technologies": ["Django", "SQLite", "Bootstrap"],
+        "createdAt": "2024"
+    }
+]
