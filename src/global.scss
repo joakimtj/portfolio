@@ -4,6 +4,7 @@ $base-background-color: rgb(246, 247, 250);
 
 #root {
     display: flex;
+    flex-direction: row;
 }
 
 #student-section {
@@ -201,4 +202,35 @@ $base-background-color: rgb(246, 247, 250);
         cursor: pointer;
         background-color: rgb(42, 146, 65);
     }
+}
+
+#delete-projects-form {
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+
+    label {
+        font-weight: bold;
+        margin: 2px;
+    }
+
+    button {
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        font-weight: bold;
+        font-size: 16px;
+        color: white;
+        background-color: rgb(39, 187, 71);
+        border-style: none;
+        border-radius: 1px;
+    }
+    button:hover {
+        cursor: pointer;
+        background-color: rgb(42, 146, 65);
+    }
+}
+
+#projects-edit-container {
+    display: flex;
 }

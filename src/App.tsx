@@ -5,8 +5,10 @@ import { Student } from "./types"
 import Projects from "./Projects"
 import { CreateProject } from "./CreateProject"
 import { Project } from "./types"
+import { useState } from "react"
 
 function App() {
+
     const student: Student = {
         name: "Halgeir Geirson",
         degree: "Bachelor IT",
@@ -18,7 +20,7 @@ function App() {
         ]
     }
 
-    const projects: Project[] = [
+    const initialProjects: Project[] = [
         {
             id: 0,
             title: "Portfolio Website", description: "A personal portfolio website showcasing projects and skills.",
@@ -58,6 +60,30 @@ function App() {
 
     ]
 
+    const [projects, setProjects] = useState<Project[]>(initialProjects);
+    const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+        projects.length > 0 ? projects[0].id : null
+    );
+
+    const handleProjectSelect = (id: number) => {
+        setSelectedProjectId(id);
+        console.log("Selected id: ", id);
+    }
+
+    const handleProjectCreate = (project: Project) => {
+        setProjects(prevProjects => [...prevProjects, project]);
+    }
+
+    const onProjectDelete = (id: number) => {
+        console.log(selectedProjectId);
+        setProjects(prevProjects => {
+            const newProjects = prevProjects.filter(project => project.id !== id);
+            // Update currentProjectId within the same state update
+            setSelectedProjectId(newProjects.length > 0 ? newProjects[0].id : null);
+            return newProjects;
+        });
+    }
+
     return (
         <>
             <section id="student-section">
@@ -67,9 +93,12 @@ function App() {
                 </section>
                 <Contact email={student.email} />
             </section>
+            <section id="projects-edit-container">
+                <CreateProject projects={projects} selectedProjectId={selectedProjectId}
+                    onProjectSelect={handleProjectSelect} onProjectCreate={handleProjectCreate} onProjectDelete={onProjectDelete}></CreateProject>
+                <Projects projects={projects} />
+            </section>
 
-            <CreateProject projects={projects}></CreateProject>
-            <Projects projects={projects} />
         </>
     )
 }

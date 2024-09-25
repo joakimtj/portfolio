@@ -1,5 +1,6 @@
 #root {
   display: flex;
+  flex-direction: row;
 }
 
 #student-section {
@@ -172,6 +173,34 @@
 .create-project-form button:hover {
   cursor: pointer;
   background-color: rgb(42, 146, 65);
+}
+
+#delete-projects-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+#delete-projects-form label {
+  font-weight: bold;
+  margin: 2px;
+}
+#delete-projects-form button {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  font-weight: bold;
+  font-size: 16px;
+  color: white;
+  background-color: rgb(39, 187, 71);
+  border-style: none;
+  border-radius: 1px;
+}
+#delete-projects-form button:hover {
+  cursor: pointer;
+  background-color: rgb(42, 146, 65);
+}
+
+#projects-edit-container {
+  display: flex;
 }
 
 /*# sourceMappingURL=global.css.map */
