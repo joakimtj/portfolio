@@ -35,25 +35,25 @@ function App() {
             technologies: ["Django", "SQLite", "Bootstrap"], date: 2024
         },
         {
-            "id": 4,
-            "title": "E-commerce Platform",
-            "description": "A full-featured e-commerce website with product listings, shopping cart, and checkout process.",
-            "technologies": ["React", "Node.js", "MongoDB", "Stripe API"],
-            "date": 2023
+            id: 3,
+            title: "E-commerce Platform",
+            description: "A full-featured e-commerce website with product listings, shopping cart, and checkout process.",
+            technologies: ["React", "Node.js", "MongoDB", "Stripe API"],
+            date: 2023
         },
         {
-            "id": 5,
-            "title": "Task Management App",
-            "description": "A collaborative task management application with real-time updates and team features.",
-            "technologies": ["Angular", "Firebase", "RxJS", "Material UI"],
-            "date": 2024
+            id: 4,
+            title: "Task Management App",
+            description: "A collaborative task management application with real-time updates and team features.",
+            technologies: ["Angular", "Firebase", "RxJS", "Material UI"],
+            date: 2024
         },
         {
-            "id": 6,
-            "title": "AI-Powered Image Recog. App",
-            "description": "A mobile application that uses machine learning to identify objects in photos taken by users.",
-            "technologies": ["Flutter", "TensorFlow Lite", "Google Cloud Vision API", "Dart"],
-            "date": 2024
+            id: 5,
+            title: "AI-Powered Image Recog. App",
+            description: "A mobile application that uses machine learning to identify objects in photos taken by users.",
+            technologies: ["Flutter", "TensorFlow Lite", "Google Cloud Vision API", "Dart"],
+            date: 2024
         }
 
     ]
