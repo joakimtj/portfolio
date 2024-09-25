@@ -57,7 +57,6 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
 
     return (
         <section id="create-delete-projects-section">
-
             <form onSubmit={handleSubmitCreate} className="create-project-form">
                 <h2>Add a new project</h2>
                 <label htmlFor="title">Title:</label>

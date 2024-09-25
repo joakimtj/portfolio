@@ -85,6 +85,7 @@ function App() {
 
     return (
         <>
+            <h2>Student</h2>
             <section id="student-section">
                 <section id="student-details-section">
                     <Header student={student.name} degree={student.degree} points={student.points} />
@@ -92,7 +93,9 @@ function App() {
                 </section>
                 <Contact email={student.email} />
             </section>
+            <h2>Projects</h2>
             <section id="projects-edit-container">
+
                 <CreateProject projects={projects} selectedProjectId={selectedProjectId}
                     onProjectSelect={handleProjectSelect} onProjectCreate={handleProjectCreate} onProjectDelete={onProjectDelete}></CreateProject>
                 <Projects projects={projects} />

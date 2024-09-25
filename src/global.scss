@@ -2,20 +2,20 @@ $gradient-border-col: #d8e1ec;
 $base-box-shadow: 1px 1px 1px rgb(173, 175, 182);
 $base-background-color: rgb(246, 247, 250);
 
-#root {
-    display: flex;
-    flex-direction: row;
-}
-
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #student-section {
     display: flex;
     flex-direction: column;
     height: 600px;
+
+    max-width: 1200px;
 }
 
 #student-details-section {
@@ -41,7 +41,7 @@ body {
     flex-basis: 0%;
     margin: 5px;
     background-color: $base-background-color;
-    padding: 20px;
+    padding: 5px;
 
     border-radius: 4px;
 
