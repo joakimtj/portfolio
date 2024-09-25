@@ -98,6 +98,7 @@ function App() {
 
                 <CreateProject projects={projects} selectedProjectId={selectedProjectId}
                     onProjectSelect={handleProjectSelect} onProjectCreate={handleProjectCreate} onProjectDelete={onProjectDelete}></CreateProject>
+                <div id="divider"></div>
                 <Projects projects={projects} />
             </section>
 

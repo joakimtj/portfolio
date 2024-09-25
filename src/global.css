@@ -9,6 +9,8 @@ body {
   display: flex;
   flex-direction: column;
   height: 600px;
+  padding: 5px;
+  background-color: #e6ebf1;
   max-width: 1200px;
 }
 
@@ -168,15 +170,11 @@ body {
 .create-project-form {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
   padding: 10px 20px 20px 20px;
   margin: 5px;
   background-color: rgb(246, 247, 250);
   border-radius: 4px;
   box-shadow: 1px 1px 1px rgb(173, 175, 182);
-}
-.create-project-form * {
-  flex-grow: 1;
 }
 .create-project-form h2 {
   margin-top: 0;

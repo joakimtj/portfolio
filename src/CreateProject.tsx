@@ -17,11 +17,6 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
     const [technologies, setTechnologies] = useState<string>("");
     const [date, setDate] = useState<string>("");
 
-    const [validTitle, setValidTitle] = useState<boolean>(false);
-    const [validDescription, setValidDescription] = useState<boolean>(false);
-    const [validTechnologies, setValidTechnologies] = useState<boolean>(false);
-    const [validDate, setValidDate] = useState<boolean>(false);
-
     const findNextAvailableId = (projects: Project[]): number => {
         if (projects.length === 0) return 1; // If no projects, start with ID 1
 
@@ -59,7 +54,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
         <section id="create-delete-projects-section">
             <form onSubmit={handleSubmitCreate} className="create-project-form">
                 <h2>Add a new project</h2>
-                <label htmlFor="title">Title:</label>
+                <label htmlFor="title">Title</label>
                 <input
                     type="text"
                     id="title"
@@ -67,28 +62,32 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
                     value={title}
                     onChange={(e) => { setTitle(e.target.value) }}
                 ></input>
-                <label htmlFor="description">Description: </label>
+                <label htmlFor="description">Description</label>
                 <textarea
                     id="description"
                     name="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    cols={25}
+                    cols={20}
                     rows={3}
                 ></textarea>
-                <label htmlFor="technologies">Technologies:</label>
+                <label htmlFor="technologies">Technologies</label>
                 <input
                     type="text"
                     id="technologies"
                     name="technologies"
+                    placeholder="React, Typescript ..."
+                    pattern="[a-zA-Z0-9.-_ ,]+"
                     value={technologies}
                     onChange={(e) => { setTechnologies(e.target.value) }}
                 ></input>
-                <label htmlFor="date">Date:</label>
+                <label htmlFor="date">Date</label>
                 <input
                     type="text"
                     id="date"
                     name="date"
+                    placeholder="1984"
+                    pattern="[0-9]{4}"
                     value={date}
                     onChange={(e) => { setDate(e.target.value) }}
                 ></input>
