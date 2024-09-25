@@ -54,10 +54,9 @@ function App() {
             id: 5,
             title: "AI-Powered Image Recog. App",
             description: "A mobile application that uses machine learning to identify objects in photos taken by users.",
-            technologies: ["Flutter", "TensorFlow Lite", "Google Cloud Vision API", "Dart"],
+            technologies: ["Flutter", "TensorFlow Lite", "Dart"],
             date: 2024
         }
-
     ]
 
     const [projects, setProjects] = useState<Project[]>(initialProjects);

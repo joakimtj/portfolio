@@ -17,6 +17,11 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
     const [technologies, setTechnologies] = useState<string>("");
     const [date, setDate] = useState<string>("");
 
+    const [validTitle, setValidTitle] = useState<boolean>(false);
+    const [validDescription, setValidDescription] = useState<boolean>(false);
+    const [validTechnologies, setValidTechnologies] = useState<boolean>(false);
+    const [validDate, setValidDate] = useState<boolean>(false);
+
     const findNextAvailableId = (projects: Project[]): number => {
         if (projects.length === 0) return 1; // If no projects, start with ID 1
 
@@ -52,7 +57,9 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
 
     return (
         <section id="create-delete-projects-section">
+
             <form onSubmit={handleSubmitCreate} className="create-project-form">
+                <h2>Add a new project</h2>
                 <label htmlFor="title">Title:</label>
                 <input
                     type="text"
@@ -68,7 +75,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     cols={25}
-                    rows={6}
+                    rows={3}
                 ></textarea>
                 <label htmlFor="technologies">Technologies:</label>
                 <input
@@ -89,8 +96,10 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
                 <button type="submit">Submit</button>
             </form>
 
+
             <form onSubmit={handleSubmitDelete} id="delete-projects-form">
-                <label htmlFor="id">Project id: </label>
+                <h2>Delete existing project</h2>
+                <label htmlFor="id">Select: </label>
                 <select name="id" value={selectedProjectId || ''} onChange={(e) => onProjectSelect(Number(e.target.value))}>
                     {projects.map((project) => {
                         return (
