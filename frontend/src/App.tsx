@@ -21,8 +21,8 @@ function App() {
         ]
     }
 
-
-
+    // This is not used.
+    // Projects are loaded from the server.
     const initialProjects: Project[] = [
         {
             id: 0,
