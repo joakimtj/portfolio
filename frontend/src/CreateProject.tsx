@@ -17,12 +17,22 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
     const [technologies, setTechnologies] = useState<string>("");
     const [date, setDate] = useState<string>("");
 
+    const [validTitle, setValidTitle] = useState<boolean>(false);
+    const [titleDirty, setTitleDirty] = useState<boolean>(false);
+    const [validDescription, setValidDescription] = useState<boolean>(false);
+    const [validTechnologies, setValidTechnologies] = useState<boolean>(false);
+    const [validDate, setValidDate] = useState<boolean>(false);
+
     const findNextAvailableId = (projects: Project[]): number => {
         if (projects.length === 0) return 1; // If no projects, start with ID 1
 
         const maxId = Math.max(...projects.map(p => p.id));
         return maxId + 1;
     };
+
+    const validateTitle = (title: string) => {
+        title.match(/^[a-zA-Z]+$/) ? setValidTitle(true) : setValidTitle(false);
+    }
 
     const handleSubmitCreate = (e: React.FormEvent) => {
         e.preventDefault();
@@ -41,6 +51,11 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
         }
 
         onProjectCreate(project);
+
+        setTitle("");
+        setDescription("");
+        setTechnologies("");
+        setDate("");
     }
 
     const handleSubmitDelete = (e: React.FormEvent) => {
@@ -60,8 +75,12 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
                     id="title"
                     name="title"
                     value={title}
+                    onBlur={() => {
+                        validateTitle(title);
+                    }}
                     onChange={(e) => { setTitle(e.target.value) }}
                 ></input>
+                {!validTitle && title.length > 0 ? (<p>Error</p>) : null}
                 <label htmlFor="description">Description</label>
                 <textarea
                     id="description"
@@ -87,7 +106,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
                     id="date"
                     name="date"
                     placeholder="1984"
-                    pattern="[0-9]{4}"
+                    pattern="[0-9]{0,4}"
                     value={date}
                     onChange={(e) => { setDate(e.target.value) }}
                 ></input>
