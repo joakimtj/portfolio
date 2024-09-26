@@ -6,6 +6,7 @@ import Projects from "./Projects"
 import { CreateProject } from "./CreateProject"
 import { Project } from "./types"
 import { useState } from "react"
+import { ofetch } from "ofetch"
 
 function App() {
 
@@ -19,6 +20,9 @@ function App() {
             "Website for customer Y"
         ]
     }
+
+    const data = ofetch("http://localhost:3000/")
+    console.log(data);
 
     const initialProjects: Project[] = [
         {
