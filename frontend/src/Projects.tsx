@@ -11,9 +11,6 @@ interface techs {
 }
 
 export default function Projects({ projects }: any) {
-    if (!projects || projects.length === 0) {
-        projects = [{ id: 0, title: "Error", description: "ERROR: No projects.", technologies: [], date: 0 }]
-    }
 
     const alltechs: techs = useMemo(() => {
         if (!projects || projects.length === 0) {
