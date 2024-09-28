@@ -1,5 +1,7 @@
 # portfolio-v2
 
-**npm install* in both the frontend and backend directories to install dependencies.
+Use **npm install** in both the frontend and backend directories to install dependencies.
 
-run **npm run dev** in frontend for the frontend, then **npm run dev** in the backend directory for the server.
+Use **npm run dev** in the *frontend* directory to start the frontend-thingamajig.
+
+Use **npm run dev** in the *backend* directory to start the server.
