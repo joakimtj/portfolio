@@ -2,11 +2,8 @@ import { Header } from "./Header"
 import { Experiences } from "./Experiences"
 import { Contact } from "./Contact"
 import { Student } from "./types"
-import Projects from "./Projects"
-import { CreateProject } from "./CreateProject"
 import { Project } from "./types"
-import { useEffect, useState } from "react"
-import { ofetch } from "ofetch"
+import { ProjectPage } from "./ProjectPage"
 
 function App() {
 
@@ -62,90 +59,6 @@ function App() {
         }
     ]
 
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
-        projects.length > 0 ? projects[0].id : null
-    );
-
-    const fetchProjects = async () => {
-        setIsLoading(true);
-        setError(null);
-        try {
-            const response = await fetch('http://localhost:3000/projects');
-            if (!response.ok) {
-                throw new Error('Failed to fetch projects');
-            }
-            const data = await response.json();
-            setProjects(data);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'An error occurred');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchProjects();
-    }, []);
-
-    const handleProjectSelect = (id: number) => {
-        setSelectedProjectId(id);
-        console.log("Selected id: ", id);
-    }
-
-    const handleProjectCreate = async (project: Project) => {
-        try {
-            const response = await fetch('http://localhost:3000/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(project),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to create project');
-            }
-
-            const createdProject = await response.json();
-
-            setProjects(prevProjects => [...prevProjects, createdProject]);
-        } catch (error) {
-            console.error('Error creating project:', error);
-        }
-    };
-
-    const onProjectDelete = async (id: number) => {
-        try {
-            console.log("Attempting to delete project with id:", id);
-            const response = await fetch(`http://localhost:3000/delete/${id}`, {
-                method: 'DELETE',
-            });
-
-            console.log("Response status:", response.status);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Failed to delete project');
-            }
-
-            const result = await response.json();
-            console.log("Delete result:", result);
-
-            // Update local state if deletion was successful
-            setProjects(prevProjects => prevProjects.filter(project => project.id !== id));
-            setSelectedProjectId(prev => prev === id ? null : prev);
-
-        } catch (error) {
-            console.error('Error deleting project:', error);
-        }
-    };
-
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-
     return (
         <>
             <h2>Student</h2>
@@ -156,15 +69,8 @@ function App() {
                 </section>
                 <Contact email={student.email} />
             </section>
-            <h2>Projects</h2>
-            <section id="projects-edit-container">
 
-                <CreateProject projects={projects} selectedProjectId={selectedProjectId}
-                    onProjectSelect={handleProjectSelect} onProjectCreate={handleProjectCreate} onProjectDelete={onProjectDelete}></CreateProject>
-                <div id="divider"></div>
-                <Projects projects={projects} />
-            </section>
-
+            <ProjectPage></ProjectPage>
         </>
     )
 }
