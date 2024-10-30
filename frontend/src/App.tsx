@@ -3,6 +3,7 @@ import { Experiences } from "./Experiences"
 import { Contact } from "./Contact"
 import { Student } from "./types"
 import { ProjectPage } from "./ProjectPage"
+import Layout from "./Layout"
 
 function App() {
 
@@ -18,7 +19,7 @@ function App() {
     }
 
     return (
-        <>
+        <Layout>
             <h2>Student</h2>
             <section id="student-section">
                 <section id="student-details-section">
@@ -29,8 +30,9 @@ function App() {
             </section>
 
             <ProjectPage></ProjectPage>
-        </>
+        </Layout>
     )
+
 }
 
 export default App;
