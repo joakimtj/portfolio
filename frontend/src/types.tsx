@@ -11,5 +11,9 @@ export interface Project {
     title: string;
     description: string;
     technologies: string[];
-    date: number;
+    createdAt: number
+    publishedAt: number
+    public: boolean
+    status: string
+    tags: string[]
 }

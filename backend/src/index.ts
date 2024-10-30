@@ -13,7 +13,11 @@ interface Project {
     title: string
     description: string
     technologies: string[]
-    date: number
+    createdAt: number
+    publishedAt: number
+    isPublic: boolean
+    status: string
+    tags: string[]
 }
 
 const jsonPath = path.join(__dirname, 'projects.json');
@@ -52,7 +56,11 @@ app.post('/add', async (c) => {
         title: body.title,
         description: body.description,
         technologies: body.technologies,
-        date: body.date
+        createdAt: body.createdAt,
+        publishedAt: body.publishedAt,
+        isPublic: body.isPublic,
+        status: body.status,
+        tags: body.tags
     }
 
     // Add the new project to the array

@@ -5,7 +5,11 @@ type ProjectProps = {
     title: string,
     description: string,
     technologies: string[],
-    date: string,
+    createdAt: number,
+    publishedAt: number,
+    isPublic: boolean,
+    status: string,
+    tags: string[],
 }
 
 export default function Project({
@@ -13,13 +17,17 @@ export default function Project({
     title,
     description,
     technologies,
-    date
+    createdAt,
+    publishedAt,
+    isPublic,
+    status,
+    tags
 }: Readonly<PropsWithChildren<ProjectProps>>) {
     return (
         <article>
             {children}
             <h2>{title}</h2>
-            <p id="date">{date}</p>
+            <p id="createdAt">{createdAt}</p>
             <p>{description}</p>
             <ul>
                 {technologies.map((technology: string, index: number) => (
