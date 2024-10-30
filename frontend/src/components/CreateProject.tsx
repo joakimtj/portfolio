@@ -1,6 +1,7 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { Project } from "../types";
 import { z } from 'zod';
+import { Trash2 } from "lucide-react";
 
 // Zod schema for project validation
 const ProjectSchema = z.object({
@@ -118,137 +119,217 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
     };
 
     return (
-        <section id="create-delete-projects-section">
-            <form onSubmit={handleSubmitCreate} className="create-project-form">
-                <h2>Add a new project</h2>
+        <section id="create-delete-projects-section" className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8">
+            {/* Create Project Form */}
+            <form onSubmit={handleSubmitCreate} className="space-y-6 mb-12">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Add a New Project</h2>
 
-                <label htmlFor="title">Title</label>
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={title}
-                    onBlur={() => {
-                        const isValid = validateTitle(title);
-                        if (!isValid && title.length > 0) {
-                            setValidationErrors(prev => ({
-                                ...prev,
-                                title: "Title must contain only letters"
-                            }));
-                        } else {
-                            setValidationErrors(prev => {
-                                const { title, ...rest } = prev;
-                                return rest;
-                            });
-                        }
-                    }}
-                    onChange={(e) => { setTitle(e.target.value) }}
-                />
-                {validationErrors.title && <p className="error">{validationErrors.title}</p>}
-
-                <label htmlFor="description">Description</label>
-                <textarea
-                    id="description"
-                    name="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    cols={20}
-                    rows={3}
-                />
-                {validationErrors.description && <p className="error">{validationErrors.description}</p>}
-
-                <label htmlFor="technologies">Technologies</label>
-                <input
-                    type="text"
-                    id="technologies"
-                    name="technologies"
-                    placeholder="React, Typescript ..."
-                    pattern="[a-zA-Z0-9.-_ ,]+"
-                    value={technologies}
-                    onChange={(e) => { setTechnologies(e.target.value) }}
-                />
-                {validationErrors.technologies && <p className="error">{validationErrors.technologies}</p>}
-
-                <label htmlFor="date">Date</label>
-                <input
-                    type="text"
-                    id="date"
-                    name="date"
-                    placeholder="1984"
-                    pattern="[0-9]{0,4}"
-                    value={createdAt}
-                    onChange={(e) => { setCreatedAt(e.target.value) }}
-                />
-                {validationErrors.createdAt && <p className="error">{validationErrors.createdAt}</p>}
-
-                <label htmlFor="status">Status</label>
-                <select
-                    id="status"
-                    name="status"
-                    value={hasStatus}
-                    onChange={(e) => { setHasStatus(e.target.value) }}
-                >
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                    <option value="planned">Planned</option>
-                    <option value="archived">Archived</option>
-                </select>
-                {validationErrors.hasStatus && <p className="error">{validationErrors.hasStatus}</p>}
-
-                <label htmlFor="isPublic">Visibility</label>
-                <div className="checkbox-wrapper">
+                {/* Title Input */}
+                <div className="space-y-2">
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                        Title
+                    </label>
                     <input
-                        type="checkbox"
-                        id="isPublic"
-                        name="isPublic"
-                        checked={isPublic}
-                        onChange={(e) => { setIsPublic(e.target.checked) }}
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={title}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        onBlur={() => {
+                            const isValid = validateTitle(title);
+                            if (!isValid && title.length > 0) {
+                                setValidationErrors(prev => ({
+                                    ...prev,
+                                    title: "Title must contain only letters"
+                                }));
+                            } else {
+                                setValidationErrors(prev => {
+                                    const { title, ...rest } = prev;
+                                    return rest;
+                                });
+                            }
+                        }}
+                        onChange={(e) => { setTitle(e.target.value) }}
                     />
-                    <span>Make this project public</span>
+                    {validationErrors.title && (
+                        <p className="text-red-600 text-sm mt-1">{validationErrors.title}</p>
+                    )}
                 </div>
-                {validationErrors.isPublic && <p className="error">{validationErrors.isPublic}</p>}
 
-                <label htmlFor="tags">Tags</label>
-                <input
-                    type="text"
-                    id="tags"
-                    name="tags"
-                    placeholder="frontend, backend, mobile ..."
-                    pattern="[a-zA-Z0-9.-_ ,]+"
-                    value={tags}
-                    onChange={(e) => { setTags(e.target.value) }}
-                />
-                {validationErrors.tags && <p className="error">{validationErrors.tags}</p>}
+                {/* Description Input */}
+                <div className="space-y-2">
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                        Description
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        rows={3}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                    {validationErrors.description && (
+                        <p className="text-red-600 text-sm mt-1">{validationErrors.description}</p>
+                    )}
+                </div>
 
-                <label htmlFor="publishedAt">Publish Date</label>
-                <input
-                    type="date"
-                    id="publishedAt"
-                    name="publishedAt"
-                    value={publishedAt}
-                    onChange={(e) => { setPublishedAt(e.target.value) }}
-                />
-                {validationErrors.publishedAt && <p className="error">{validationErrors.publishedAt}</p>}
+                {/* Technologies Input */}
+                <div className="space-y-2">
+                    <label htmlFor="technologies" className="block text-sm font-medium text-gray-700">
+                        Technologies
+                    </label>
+                    <input
+                        type="text"
+                        id="technologies"
+                        name="technologies"
+                        placeholder="React, TypeScript ..."
+                        pattern="[a-zA-Z0-9.-_ ,]+"
+                        value={technologies}
+                        onChange={(e) => { setTechnologies(e.target.value) }}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                    {validationErrors.technologies && (
+                        <p className="text-red-600 text-sm mt-1">{validationErrors.technologies}</p>
+                    )}
+                </div>
 
-                {validationErrors.form && <p className="error">{validationErrors.form}</p>}
-                <button type="submit">Submit</button>
+                {/* Date and Status Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                        <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+                            Date
+                        </label>
+                        <input
+                            type="text"
+                            id="date"
+                            name="date"
+                            placeholder="1984"
+                            pattern="[0-9]{0,4}"
+                            value={createdAt}
+                            onChange={(e) => { setCreatedAt(e.target.value) }}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        {validationErrors.createdAt && (
+                            <p className="text-red-600 text-sm mt-1">{validationErrors.createdAt}</p>
+                        )}
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+                            Status
+                        </label>
+                        <select
+                            id="status"
+                            name="status"
+                            value={hasStatus}
+                            onChange={(e) => { setHasStatus(e.target.value) }}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                            <option value="planned">Planned</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                    </div>
+                </div>
+
+                {/* Visibility Checkbox */}
+                <div className="space-y-2">
+                    <label className="inline-flex items-center space-x-2">
+                        <input
+                            type="checkbox"
+                            id="isPublic"
+                            name="isPublic"
+                            checked={isPublic}
+                            onChange={(e) => { setIsPublic(e.target.checked) }}
+                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="text-sm text-gray-700">Make this project public</span>
+                    </label>
+                </div>
+
+                {/* Tags and Publish Date Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                        <label htmlFor="tags" className="block text-sm font-medium text-gray-700">
+                            Tags
+                        </label>
+                        <input
+                            type="text"
+                            id="tags"
+                            name="tags"
+                            placeholder="frontend, backend, mobile ..."
+                            pattern="[a-zA-Z0-9.-_ ,]+"
+                            value={tags}
+                            onChange={(e) => { setTags(e.target.value) }}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                    </div>
+
+                    <div className="space-y-2">
+                        <label htmlFor="publishedAt" className="block text-sm font-medium text-gray-700">
+                            Publish Date
+                        </label>
+                        <input
+                            type="date"
+                            id="publishedAt"
+                            name="publishedAt"
+                            value={publishedAt}
+                            onChange={(e) => { setPublishedAt(e.target.value) }}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                    </div>
+                </div>
+
+                {validationErrors.form && (
+                    <p className="text-red-600 text-sm mt-1">{validationErrors.form}</p>
+                )}
+
+                <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 
+                             transition-colors duration-300 font-medium"
+                >
+                    Create Project
+                </button>
             </form>
 
-            <form onSubmit={handleSubmitDelete} id="delete-projects-form">
-                <h2>Delete existing project</h2>
-                <label htmlFor="id">Select: </label>
-                <select name="id" value={selectedProjectId || ''} onChange={(e) => onProjectSelect(Number(e.target.value))}>
-                    {projects.map((project) => {
-                        return (
-                            <option key={project.id}
-                                value={project.id}
-                            >
-                                {project.title}
-                            </option>
-                        )
-                    })}
-                </select>
-                <button type="submit">Delete</button>
+            {/* Delete Project Form */}
+            <form
+                onSubmit={handleSubmitDelete}
+                id="delete-projects-form"
+                className="border-t border-gray-200 pt-8"
+            >
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Delete Project</h2>
+
+                <div className="flex items-end gap-4">
+                    <div className="flex-grow space-y-2">
+                        <label htmlFor="id" className="block text-sm font-medium text-gray-700">
+                            Select Project
+                        </label>
+                        <select
+                            name="id"
+                            value={selectedProjectId || ''}
+                            onChange={(e) => onProjectSelect(Number(e.target.value))}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        >
+                            {projects.map((project) => (
+                                <option key={project.id} value={project.id}>
+                                    {project.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <button
+                        type="submit"
+                        className="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 
+                                 transition-colors duration-300 flex items-center gap-2"
+                    >
+                        <Trash2 className="w-4 h-4" />
+                        Delete
+                    </button>
+                </div>
             </form>
         </section>
     )

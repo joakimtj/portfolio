@@ -66,8 +66,9 @@ export const ProjectPage = () => {
 
     return (
         <>
-            <h2>Projects</h2>
             <section id="projects-edit-container">
+                <div id="divider"></div>
+                <Projects projects={projects} />
                 <CreateProject
                     projects={projects}
                     selectedProjectId={selectedProjectId}
@@ -75,8 +76,6 @@ export const ProjectPage = () => {
                     onProjectCreate={handleProjectCreate}
                     onProjectDelete={handleProjectDelete}
                 />
-                <div id="divider"></div>
-                <Projects projects={projects} />
             </section>
         </>
     );
