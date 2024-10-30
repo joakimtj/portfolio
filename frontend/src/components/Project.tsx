@@ -1,16 +1,7 @@
 import { PropsWithChildren } from "react"
+import type { Project as ProjectType } from "../types"  // Changed to type-only import and renamed
 
-type ProjectProps = {
-    id: number,
-    title: string,
-    description: string,
-    technologies: string[],
-    createdAt: number,
-    publishedAt: number,
-    isPublic: boolean,
-    hasStatus: string,
-    tags: string[],
-}
+type ProjectComponentProps = PropsWithChildren<ProjectType>
 
 export default function Project({
     children,
@@ -22,7 +13,7 @@ export default function Project({
     isPublic,
     hasStatus,
     tags
-}: Readonly<PropsWithChildren<ProjectProps>>) {
+}: Readonly<ProjectComponentProps>) {
     return (
         <article>
             {children}
