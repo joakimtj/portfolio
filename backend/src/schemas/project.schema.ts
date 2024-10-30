@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-const ProjectSchema = z.object({
-    id: z.number().optional(), // Optional for creation, required for updates
+export const ProjectSchema = z.object({
+    id: z.number().optional(),
     title: z.string()
         .min(1, "Title is required")
         .max(100, "Title must be less than 100 characters"),
@@ -23,4 +23,8 @@ const ProjectSchema = z.object({
         .max(10, "Maximum 10 tags allowed")
 });
 
-export type Test = z.infer<typeof ProjectSchema>
+export const ProjectUpdateSchema = ProjectSchema.partial().extend({
+    id: z.number().int().positive()
+});
+
+export type ValidatedProject = z.infer<typeof ProjectSchema>;
