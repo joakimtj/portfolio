@@ -107,7 +107,7 @@ app.get('/api/projects', (c) => {
         return c.json(formattedProjects)
     } catch (error) {
         console.error('Error fetching projects:', error)
-        return c.json({ error: 'Failed to fetch projects' }, 500)
+        return c.json({ success: false, error: 'Failed to fetch projects' }, 500)
     }
 })
 
@@ -159,7 +159,7 @@ app.post('/api/add', async (c) => {
         return c.json(newProject, 201);
     } catch (error) {
         console.error('Error inserting project:', error);
-        return c.json({ error: 'Failed to create project' }, 500);
+        return c.json({ sucess: false, error: 'Failed to create project' }, 500);
     }
 });
 
@@ -190,9 +190,106 @@ app.get('/api/projects/:id', (c) => {
         return c.json(formattedProject)
     } catch (error) {
         console.error('Error fetching project:', error)
-        return c.json({ error: 'Failed to fetch project' }, 500)
+        return c.json({ sucess: false, error: 'Failed to fetch project' }, 500)
     }
 })
+
+// Create a partial schema for updates where all fields are optional
+const ProjectUpdateSchema = ProjectSchema.partial().extend({
+    id: z.number().int().positive()  // ID is required for updates
+});
+
+app.put('/api/projects/:id', async (c) => {
+    const id = Number(c.req.param('id'));
+
+    // Validate ID
+    if (isNaN(id)) {
+        return c.json({ error: 'Invalid id: must be a number' }, 400);
+    }
+
+    try {
+        // Check if project exists
+        const existingProject = db.prepare('SELECT * FROM projects WHERE id = ?').get(id);
+        if (!existingProject) {
+            return c.json({ error: 'Project not found' }, 404);
+        }
+
+        // Get and validate update data
+        const body = await c.req.json();
+        const validationResult = ProjectUpdateSchema.safeParse({ ...body, id });
+
+        if (!validationResult.success) {
+            return c.json({
+                error: 'Validation failed',
+                details: validationResult.error.errors.map(err => ({
+                    field: err.path.join('.'),
+                    message: err.message
+                }))
+            }, 400);
+        }
+
+        const updates = validationResult.data;
+
+        // Prepare the update data
+        const updateData: Record<string, any> = {
+            title: updates.title,
+            description: updates.description,
+            technologies: updates.technologies ? arrayToString(updates.technologies) : undefined,
+            createdAt: updates.createdAt,
+            publishedAt: updates.publishedAt,
+            isPublic: typeof updates.isPublic === 'boolean' ? (updates.isPublic ? 1 : 0) : undefined,
+            hasStatus: updates.hasStatus,
+            tags: updates.tags ? arrayToString(updates.tags) : undefined
+        };
+
+        // Remove undefined values
+        Object.keys(updateData).forEach(key =>
+            updateData[key] === undefined && delete updateData[key]
+        );
+
+        // If no fields to update, return early
+        if (Object.keys(updateData).length === 0) {
+            return c.json({ error: 'No valid fields to update' }, 400);
+        }
+
+        // Create the SQL SET clause dynamically
+        const setClause = Object.keys(updateData)
+            .map(key => `${key} = ?`)
+            .join(', ');
+
+        const stmt = db.prepare(`
+            UPDATE projects 
+            SET ${setClause}
+            WHERE id = ?
+        `);
+
+        // Execute the update
+        const result = stmt.run(
+            ...Object.values(updateData),
+            id
+        );
+
+        if (result.changes === 0) {
+            return c.json({ error: 'No changes made to the project' }, 400);
+        }
+
+        // Fetch and return the updated project
+        const updatedProject = db.prepare('SELECT * FROM projects WHERE id = ?').get(id);
+
+        // Format the response
+        const formattedProject = {
+            ...updatedProject,
+            technologies: stringToArray(updatedProject.technologies),
+            tags: stringToArray(updatedProject.tags),
+            isPublic: Boolean(updatedProject.isPublic)
+        };
+
+        return c.json(formattedProject);
+    } catch (error) {
+        console.error('Error updating project:', error);
+        return c.json({ error: 'Failed to update project' }, 500);
+    }
+});
 
 app.delete('/api/delete/:id', (c) => {
     const id = Number(c.req.param('id'))
@@ -206,13 +303,13 @@ app.delete('/api/delete/:id', (c) => {
         const result = stmt.run(id)
 
         if (result.changes === 0) {
-            return c.json({ error: 'Project not found' }, 404)
+            return c.json({ success: false, error: 'Project not found' }, 404)
         }
 
         return c.json({ message: 'Project deleted successfully' }, 200)
     } catch (error) {
         console.error('Error deleting project:', error)
-        return c.json({ error: 'Failed to delete project' }, 500)
+        return c.json({ sucess: false, error: 'Failed to delete project' }, 500)
     }
 })
 
