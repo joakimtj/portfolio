@@ -92,7 +92,7 @@ const stringToArray = (str: string) => JSON.parse(str)
 app.get('/', (c) => {
     return c.text('Hello Hono!')
 })
-
+// Endpoint to fetch projects
 app.get('/api/projects', (c) => {
     try {
         const projects = db.prepare('SELECT * FROM projects').all()
@@ -198,7 +198,7 @@ app.get('/api/projects/:id', (c) => {
 const ProjectUpdateSchema = ProjectSchema.partial().extend({
     id: z.number().int().positive()  // ID is required for updates
 });
-
+// Endpoint for updating a project
 app.put('/api/projects/:id', async (c) => {
     const id = Number(c.req.param('id'));
 
