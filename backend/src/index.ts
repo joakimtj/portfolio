@@ -2,10 +2,36 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import Database from 'better-sqlite3'
+import { z } from 'zod'
 
 const app = new Hono()
 app.use('/*', cors())
 
+// Zod schema for Project
+const ProjectSchema = z.object({
+    id: z.number().optional(), // Optional for creation, required for updates
+    title: z.string()
+        .min(1, "Title is required")
+        .max(100, "Title must be less than 100 characters"),
+    description: z.string()
+        .min(1, "Description is required")
+        .max(1000, "Description must be less than 1000 characters"),
+    technologies: z.array(z.string())
+        .min(1, "At least one technology is required")
+        .max(20, "Maximum 20 technologies allowed"),
+    createdAt: z.number()
+        .int()
+        .min(1900, "Year must be after 1900")
+        .max(new Date().getFullYear(), "Year cannot be in the future"),
+    publishedAt: z.number()
+        .int(),
+    isPublic: z.boolean(),
+    hasStatus: z.enum(["in_progress", "completed", "planned", "archived"]),
+    tags: z.array(z.string())
+        .max(10, "Maximum 10 tags allowed")
+});
+
+// Project type interface
 interface Project {
     id: number
     title: string
@@ -17,6 +43,27 @@ interface Project {
     hasStatus: string
     tags: string[]
 }
+
+// Type inference from schema
+type ValidatedProject = z.infer<typeof ProjectSchema>;
+
+// Validation middleware
+const validateProject = async (c: any) => {
+    try {
+        const body = await c.req.json();
+        const validatedData = ProjectSchema.parse(body);
+        return { success: true, data: validatedData };
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            const errors = error.errors.map(err => ({
+                field: err.path.join('.'),
+                message: err.message
+            }));
+            return { success: false, errors };
+        }
+        return { success: false, errors: [{ message: 'Invalid data format' }] };
+    }
+};
 
 // Initialize database
 const db = new Database('projects.db')
@@ -31,7 +78,7 @@ db.exec(`
         createdAt INTEGER NOT NULL,
         publishedAt INTEGER NOT NULL,
         isPublic BOOLEAN NOT NULL,
-        status TEXT NOT NULL,
+        hasStatus TEXT NOT NULL,
         tags TEXT NOT NULL
     )
 `)
@@ -64,38 +111,34 @@ app.get('/api/projects', (c) => {
     }
 })
 
+// POST endpoint with validation
 app.post('/api/add', async (c) => {
-    const body = await c.req.json()
+    const validation = await validateProject(c);
 
-    // Validate the incoming data
-    if (!body.title || !body.description || !body.technologies || !body.createdAt) {
-        return c.json({ error: 'Missing required fields' }, 400)
+    if (!validation.success) {
+        return c.json({ error: 'Validation failed', details: validation.errors }, 400);
     }
 
-    try {
-        // Convert and validate data for SQLite
-        const projectToInsert = {
-            title: String(body.title),
-            description: String(body.description),
-            technologies: arrayToString(Array.isArray(body.technologies) ? body.technologies : []),
-            createdAt: Number(body.createdAt),
-            publishedAt: body.publishedAt ? Number(body.publishedAt) : Date.now(),
-            isPublic: body.isPublic ? 1 : 0,  // Convert boolean to integer
-            status: String(body.status || 'in_progress'),
-            tags: arrayToString(Array.isArray(body.tags) ? body.tags : [])
-        }
+    const validatedProject = validation.data;
 
-        // Validate numeric fields
-        if (isNaN(projectToInsert.createdAt) || isNaN(projectToInsert.publishedAt)) {
-            return c.json({ error: 'Invalid date format' }, 400)
-        }
+    try {
+        const projectToInsert = {
+            title: validatedProject.title,
+            description: validatedProject.description,
+            technologies: arrayToString(validatedProject.technologies),
+            createdAt: validatedProject.createdAt,
+            publishedAt: validatedProject.publishedAt,
+            isPublic: validatedProject.isPublic ? 1 : 0,
+            hasStatus: validatedProject.hasStatus,
+            tags: arrayToString(validatedProject.tags)
+        };
 
         const stmt = db.prepare(`
             INSERT INTO projects (
                 title, description, technologies, createdAt, 
-                publishedAt, isPublic, status, tags
+                publishedAt, isPublic, hasStatus, tags
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `)
+        `);
 
         const result = stmt.run(
             projectToInsert.title,
@@ -103,31 +146,24 @@ app.post('/api/add', async (c) => {
             projectToInsert.technologies,
             projectToInsert.createdAt,
             projectToInsert.publishedAt,
-            projectToInsert.isPublic,  // Now storing as 0 or 1
-            projectToInsert.status,
+            projectToInsert.isPublic,
+            projectToInsert.hasStatus,
             projectToInsert.tags
-        )
+        );
 
-        // Convert the data back to the expected format for the response
         const newProject = {
             id: Number(result.lastInsertRowid),
-            title: body.title,
-            description: body.description,
-            technologies: body.technologies,
-            createdAt: projectToInsert.createdAt,
-            publishedAt: projectToInsert.publishedAt,
-            isPublic: Boolean(projectToInsert.isPublic),
-            status: projectToInsert.status,
-            tags: body.tags || []
-        }
+            ...validatedProject
+        };
 
-        return c.json(newProject, 201)
+        return c.json(newProject, 201);
     } catch (error) {
-        console.error('Error inserting project:', error)
-        return c.json({ error: 'Failed to create project' }, 500)
+        console.error('Error inserting project:', error);
+        return c.json({ error: 'Failed to create project' }, 500);
     }
-})
+});
 
+// Endpoint to fetch single project by its id
 app.get('/api/projects/:id', (c) => {
     const id = Number(c.req.param('id'))
 
