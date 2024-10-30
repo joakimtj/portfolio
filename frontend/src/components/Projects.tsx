@@ -48,7 +48,7 @@ export default function Projects({ projects }: any) {
                 {projects.map((project: any) =>
                     <Project key={project.id} id={project.id} title={project.title} description={project.description}
                         technologies={project.technologies} createdAt={project.createdAt} publishedAt={project.publishedAt}
-                        isPublic={project.isPublic} status={project.status} tags={project.tags}>
+                        isPublic={project.isPublic} hasStatus={project.hasStatus} tags={project.tags}>
 
                     </Project>
                 )}

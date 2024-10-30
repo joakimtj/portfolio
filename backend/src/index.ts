@@ -1,12 +1,10 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
-import * as fs from 'fs'
-import * as path from 'path'
+import Database from 'better-sqlite3'
 
 const app = new Hono()
-
-app.use('/*', cors());
+app.use('/*', cors())
 
 interface Project {
     id: number
@@ -16,85 +14,171 @@ interface Project {
     createdAt: number
     publishedAt: number
     isPublic: boolean
-    status: string
+    hasStatus: string
     tags: string[]
 }
 
-const jsonPath = path.join(__dirname, 'projects.json');
+// Initialize database
+const db = new Database('projects.db')
 
-// Function to read JSON data
-function readJsonData(): Project[] {
-    return JSON.parse(fs.readFileSync(jsonPath, 'utf-8'))
-}
+// Create table if it doesn't exist
+db.exec(`
+    CREATE TABLE IF NOT EXISTS projects (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT NOT NULL,
+        technologies TEXT NOT NULL,
+        createdAt INTEGER NOT NULL,
+        publishedAt INTEGER NOT NULL,
+        isPublic BOOLEAN NOT NULL,
+        status TEXT NOT NULL,
+        tags TEXT NOT NULL
+    )
+`)
 
-// Function to write JSON data
-function writeJsonData(data: Project[]): void {
-    fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2))
-}
+// Helper function to convert array to string for storage
+const arrayToString = (arr: string[]) => JSON.stringify(arr)
 
-let jsonData: Project[] = readJsonData()
+// Helper function to convert string back to array
+const stringToArray = (str: string) => JSON.parse(str)
 
 app.get('/', (c) => {
     return c.text('Hello Hono!')
 })
 
-app.get('/projects', (c) => {
-    return c.json(jsonData);
+app.get('/api/projects', (c) => {
+    try {
+        const projects = db.prepare('SELECT * FROM projects').all()
+
+        // Convert string representations back to arrays
+        const formattedProjects = projects.map(project => ({
+            ...project,
+            technologies: stringToArray(project.technologies),
+            tags: stringToArray(project.tags)
+        }))
+
+        return c.json(formattedProjects)
+    } catch (error) {
+        console.error('Error fetching projects:', error)
+        return c.json({ error: 'Failed to fetch projects' }, 500)
+    }
 })
 
-app.post('/add', async (c) => {
+app.post('/api/add', async (c) => {
     const body = await c.req.json()
 
     // Validate the incoming data
-    if (!body.title || !body.description || !body.technologies || !body.date) {
+    if (!body.title || !body.description || !body.technologies || !body.createdAt) {
         return c.json({ error: 'Missing required fields' }, 400)
     }
 
-    // Create a new project object
-    const newProject: Project = {
-        id: jsonData.length > 0 ? Math.max(...jsonData.map(p => p.id)) + 1 : 0,
-        title: body.title,
-        description: body.description,
-        technologies: body.technologies,
-        createdAt: body.createdAt,
-        publishedAt: body.publishedAt,
-        isPublic: body.isPublic,
-        status: body.status,
-        tags: body.tags
+    try {
+        // Convert and validate data for SQLite
+        const projectToInsert = {
+            title: String(body.title),
+            description: String(body.description),
+            technologies: arrayToString(Array.isArray(body.technologies) ? body.technologies : []),
+            createdAt: Number(body.createdAt),
+            publishedAt: body.publishedAt ? Number(body.publishedAt) : Date.now(),
+            isPublic: body.isPublic ? 1 : 0,  // Convert boolean to integer
+            status: String(body.status || 'in_progress'),
+            tags: arrayToString(Array.isArray(body.tags) ? body.tags : [])
+        }
+
+        // Validate numeric fields
+        if (isNaN(projectToInsert.createdAt) || isNaN(projectToInsert.publishedAt)) {
+            return c.json({ error: 'Invalid date format' }, 400)
+        }
+
+        const stmt = db.prepare(`
+            INSERT INTO projects (
+                title, description, technologies, createdAt, 
+                publishedAt, isPublic, status, tags
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `)
+
+        const result = stmt.run(
+            projectToInsert.title,
+            projectToInsert.description,
+            projectToInsert.technologies,
+            projectToInsert.createdAt,
+            projectToInsert.publishedAt,
+            projectToInsert.isPublic,  // Now storing as 0 or 1
+            projectToInsert.status,
+            projectToInsert.tags
+        )
+
+        // Convert the data back to the expected format for the response
+        const newProject = {
+            id: Number(result.lastInsertRowid),
+            title: body.title,
+            description: body.description,
+            technologies: body.technologies,
+            createdAt: projectToInsert.createdAt,
+            publishedAt: projectToInsert.publishedAt,
+            isPublic: Boolean(projectToInsert.isPublic),
+            status: projectToInsert.status,
+            tags: body.tags || []
+        }
+
+        return c.json(newProject, 201)
+    } catch (error) {
+        console.error('Error inserting project:', error)
+        return c.json({ error: 'Failed to create project' }, 500)
     }
-
-    // Add the new project to the array
-    jsonData.push(newProject)
-
-    // Save the updated data back to the file
-    writeJsonData(jsonData)
-
-    return c.json(newProject, 201)
 })
 
-app.delete('/delete/:id', async (c) => {
-    console.log("In delete");
-    const id = Number(c.req.param('id'));
-    console.log("Attempting to delete project with id:", id);
+app.get('/api/projects/:id', (c) => {
+    const id = Number(c.req.param('id'))
 
     if (isNaN(id)) {
-        console.log("Invalid ID");
-        return c.json({ error: 'Invalid id: must be a number' }, 400);
+        return c.json({ error: 'Invalid id: must be a number' }, 400)
     }
 
-    const initialLength = jsonData.length;
-    jsonData = jsonData.filter(project => project.id !== id);
-    console.log(`Initial length: ${initialLength}, New length: ${jsonData.length}`);
+    try {
+        const stmt = db.prepare('SELECT * FROM projects WHERE id = ?')
+        const project = stmt.get(id)
 
-    if (initialLength === jsonData.length) {
-        console.log("Project not found");
-        return c.json({ error: 'Project not found' }, 404);
+        if (!project) {
+            return c.json({ error: 'Project not found' }, 404)
+        }
+
+        // Convert stored strings back to arrays and boolean
+        const formattedProject = {
+            ...project,
+            technologies: stringToArray(project.technologies),
+            tags: stringToArray(project.tags),
+            isPublic: Boolean(project.isPublic)
+        }
+
+        return c.json(formattedProject)
+    } catch (error) {
+        console.error('Error fetching project:', error)
+        return c.json({ error: 'Failed to fetch project' }, 500)
+    }
+})
+
+app.delete('/api/delete/:id', (c) => {
+    const id = Number(c.req.param('id'))
+
+    if (isNaN(id)) {
+        return c.json({ error: 'Invalid id: must be a number' }, 400)
     }
 
-    writeJsonData(jsonData);
-    console.log("Project deleted successfully");
-    return c.json({ message: 'Project deleted successfully' }, 200);
-});
+    try {
+        const stmt = db.prepare('DELETE FROM projects WHERE id = ?')
+        const result = stmt.run(id)
+
+        if (result.changes === 0) {
+            return c.json({ error: 'Project not found' }, 404)
+        }
+
+        return c.json({ message: 'Project deleted successfully' }, 200)
+    } catch (error) {
+        console.error('Error deleting project:', error)
+        return c.json({ error: 'Failed to delete project' }, 500)
+    }
+})
 
 const port = 3000
 console.log(`Server is running on port ${port}`)

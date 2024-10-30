@@ -5,9 +5,12 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.1",
+    "better-sqlite3": "^11.5.0",
+    "db": "^6.0.3",
     "hono": "^4.6.3"
   },
   "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
     "@types/node": "^20.11.17",
     "tsx": "^4.7.1"
   }

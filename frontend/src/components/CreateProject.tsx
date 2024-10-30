@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { Project } from "./types";
+import { Project } from "../types";
 
 type CreateProjectProps = {
     projects: Project[],
@@ -15,13 +15,13 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
     const [title, setTitle] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [technologies, setTechnologies] = useState<string>("");
-    const [date, setDate] = useState<string>("");
+    const [createdAt, setCreatedAt] = useState<string>("");
+    const [hasStatus, setHasStatus] = useState<string>('in_progress');
+    const [isPublic, setIsPublic] = useState<boolean>(false);
+    const [tags, setTags] = useState<string>('');
+    const [publishedAt, setPublishedAt] = useState<string>('');
 
     const [validTitle, setValidTitle] = useState<boolean>(false);
-    const [titleDirty, setTitleDirty] = useState<boolean>(false);
-    const [validDescription, setValidDescription] = useState<boolean>(false);
-    const [validTechnologies, setValidTechnologies] = useState<boolean>(false);
-    const [validDate, setValidDate] = useState<boolean>(false);
 
     const findNextAvailableId = (projects: Project[]): number => {
         if (projects.length === 0) return 1; // If no projects, start with ID 1
@@ -37,25 +37,26 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
     const handleSubmitCreate = (e: React.FormEvent) => {
         e.preventDefault();
 
-        const nextId = findNextAvailableId(projects);
+        const id = findNextAvailableId(projects);
 
-        const project: Project = {
-            id: nextId,
-            title: title,
-            description: description,
-            technologies: technologies
-                .split(',')
-                .map(tech => tech.trim())
-                .filter(tech => tech !== ''),
-            date: Number(date)
-        }
+        const projectData = {
+            id,
+            title,
+            description,
+            technologies: technologies.split(',').map(tech => tech.trim()),
+            createdAt: Number(createdAt),
+            publishedAt: new Date(publishedAt).getTime(),
+            isPublic,
+            hasStatus,
+            tags: tags.split(',').map(tag => tag.trim())
+        };
 
-        onProjectCreate(project);
+        onProjectCreate(projectData);
 
         setTitle("");
         setDescription("");
         setTechnologies("");
-        setDate("");
+        setCreatedAt("");
     }
 
     const handleSubmitDelete = (e: React.FormEvent) => {
@@ -69,6 +70,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
         <section id="create-delete-projects-section">
             <form onSubmit={handleSubmitCreate} className="create-project-form">
                 <h2>Add a new project</h2>
+
                 <label htmlFor="title">Title</label>
                 <input
                     type="text"
@@ -79,8 +81,9 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
                         validateTitle(title);
                     }}
                     onChange={(e) => { setTitle(e.target.value) }}
-                ></input>
+                />
                 {!validTitle && title.length > 0 ? (<p>Error</p>) : null}
+
                 <label htmlFor="description">Description</label>
                 <textarea
                     id="description"
@@ -89,7 +92,8 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
                     onChange={(e) => setDescription(e.target.value)}
                     cols={20}
                     rows={3}
-                ></textarea>
+                />
+
                 <label htmlFor="technologies">Technologies</label>
                 <input
                     type="text"
@@ -99,7 +103,8 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
                     pattern="[a-zA-Z0-9.-_ ,]+"
                     value={technologies}
                     onChange={(e) => { setTechnologies(e.target.value) }}
-                ></input>
+                />
+
                 <label htmlFor="date">Date</label>
                 <input
                     type="text"
@@ -107,9 +112,55 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ projects, selected
                     name="date"
                     placeholder="1984"
                     pattern="[0-9]{0,4}"
-                    value={date}
-                    onChange={(e) => { setDate(e.target.value) }}
-                ></input>
+                    value={createdAt}
+                    onChange={(e) => { setCreatedAt(e.target.value) }}
+                />
+
+                <label htmlFor="status">Status</label>
+                <select
+                    id="status"
+                    name="status"
+                    value={hasStatus}
+                    onChange={(e) => { setHasStatus(e.target.value) }}
+                >
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="planned">Planned</option>
+                    <option value="archived">Archived</option>
+                </select>
+
+                <label htmlFor="isPublic">Visibility</label>
+                <div className="checkbox-wrapper">
+                    <input
+                        type="checkbox"
+                        id="isPublic"
+                        name="isPublic"
+                        checked={isPublic}
+                        onChange={(e) => { setIsPublic(e.target.checked) }}
+                    />
+                    <span>Make this project public</span>
+                </div>
+
+                <label htmlFor="tags">Tags</label>
+                <input
+                    type="text"
+                    id="tags"
+                    name="tags"
+                    placeholder="frontend, backend, mobile ..."
+                    pattern="[a-zA-Z0-9.-_ ,]+"
+                    value={tags}
+                    onChange={(e) => { setTags(e.target.value) }}
+                />
+
+                <label htmlFor="publishedAt">Publish Date</label>
+                <input
+                    type="date"
+                    id="publishedAt"
+                    name="publishedAt"
+                    value={publishedAt}
+                    onChange={(e) => { setPublishedAt(e.target.value) }}
+                />
+
                 <button type="submit">Submit</button>
             </form>
 

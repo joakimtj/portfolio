@@ -3,6 +3,7 @@ import { CreateProject } from './CreateProject';
 import Projects from './Projects';
 import { Project } from '../types';
 import { useFetchProjects } from '../hooks/useFetchProjects';
+import { endpoints } from '../config/urls';
 
 export const ProjectPage = () => {
     const { projects, setProjects, isLoading, error } = useFetchProjects();
@@ -17,7 +18,7 @@ export const ProjectPage = () => {
 
     const handleProjectCreate = async (project: Project) => {
         try {
-            const response = await fetch('http://localhost:3000/add', {
+            const response = await fetch(endpoints.addProject, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +40,7 @@ export const ProjectPage = () => {
     const handleProjectDelete = async (id: number) => {
         try {
             console.log("Attempting to delete project with id:", id);
-            const response = await fetch(`http://localhost:3000/delete/${id}`, {
+            const response = await fetch(`${endpoints.deleteProject}/${id}`, {
                 method: 'DELETE',
             });
 

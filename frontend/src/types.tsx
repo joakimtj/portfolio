@@ -13,7 +13,7 @@ export interface Project {
     technologies: string[];
     createdAt: number
     publishedAt: number
-    public: boolean
-    status: string
+    isPublic: boolean
+    hasStatus: string
     tags: string[]
 }

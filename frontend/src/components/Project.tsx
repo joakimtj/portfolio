@@ -8,7 +8,7 @@ type ProjectProps = {
     createdAt: number,
     publishedAt: number,
     isPublic: boolean,
-    status: string,
+    hasStatus: string,
     tags: string[],
 }
 
@@ -20,7 +20,7 @@ export default function Project({
     createdAt,
     publishedAt,
     isPublic,
-    status,
+    hasStatus,
     tags
 }: Readonly<PropsWithChildren<ProjectProps>>) {
     return (
