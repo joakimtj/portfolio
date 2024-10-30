@@ -10,4 +10,4 @@ Use **npm run dev** in the *backend* directory to start the server.
 
 Jeg fikk ikke 'db' til å fungere så jeg brukte heller 'better-sqlite3'.
 
-Alt av db og zod implementasjon finnes i backend sin index.ts. Greit å splittes ut kanskje men jeg fokuserte heller på å få dette ferdig.
+Zod implementasjon finnes i backend sin index.ts for backend og i frontend CreateProject.tsx. Jeg fokuserte på å få dette ferdig men det er vel lurt å få dette ut i egne filer.
