@@ -7,7 +7,7 @@ export default function Layout(props: LayoutProps) {
 
     return (
         <>
-            <main className="container">{children}</main>
+            {children}
         </>
     );
 }

@@ -14,7 +14,7 @@ export const Contact: React.FC<ContactProps> = ({ email }) => {
     };
 
     return (
-        <section id="contact-section" className="bg-gray-100 py-12">
+        <section id="contact-section" className="mx-auto bg-gray-100 px-56 py-12">
             <div className="mx-auto px-4 sm:px-6">
                 <div className="bg-white rounded-lg shadow-md p-8">
                     {/* Header */}

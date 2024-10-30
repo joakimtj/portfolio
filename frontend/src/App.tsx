@@ -33,7 +33,7 @@ function App() {
                             id="student-details-section"
                             className="bg-white rounded-lg shadow-md p-8"
                         >
-                            <div className="max-w-3xl mx-auto">
+                            <div className="max-w-3xl ml-0 mr-auto">
                                 <div className="mb-8">
                                     <Header
                                         student={student.name}
@@ -60,9 +60,8 @@ function App() {
                 </section>
 
                 {/* Contact Section */}
-                <section className="">
-                    <Contact email={student.email} />
-                </section>
+                <Contact email={student.email} />
+
             </main>
         </Layout>
     )
