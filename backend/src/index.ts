@@ -168,7 +168,7 @@ app.get('/api/projects/:id', (c) => {
     const id = Number(c.req.param('id'))
 
     if (isNaN(id)) {
-        return c.json({ error: 'Invalid id: must be a number' }, 400)
+        return c.json({ succes: false, error: 'Invalid id: must be a number' }, 400)
     }
 
     try {
@@ -176,7 +176,7 @@ app.get('/api/projects/:id', (c) => {
         const project = stmt.get(id)
 
         if (!project) {
-            return c.json({ error: 'Project not found' }, 404)
+            return c.json({ success: false, error: 'Project not found' }, 404)
         }
 
         // Convert stored strings back to arrays and boolean
