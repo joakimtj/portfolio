@@ -1,8 +1,8 @@
 import { Header } from "./Header"
-import { Experiences } from "./Experiences"
-import { Contact } from "./Contact"
+import { Experiences } from "./components/Experiences"
+import { Contact } from "./components/Contact"
 import { Student } from "./types"
-import { ProjectPage } from "./ProjectPage"
+import { ProjectPage } from "./components/ProjectPage"
 import Layout from "./Layout"
 
 function App() {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { CreateProject } from './CreateProject';
 import Projects from './Projects';
-import { Project } from './types';
-import { useFetchProjects } from './hooks/useFetchProjects';
+import { Project } from '../types';
+import { useFetchProjects } from '../hooks/useFetchProjects';
 
 export const ProjectPage = () => {
     const { projects, setProjects, isLoading, error } = useFetchProjects();
